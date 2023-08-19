@@ -11,14 +11,17 @@ function win (plr: number) {
     if (plr == 1 && currplayer || plr == 2 && !(currplayer)) {
         if (single) {
             basic.showString("" + (score.toString()))
+            control.reset()
         } else {
-            control.panic(420)
+            basic.showIcon(IconNames.Sad)
+            basic.pause(5000)
+            control.reset()
         }
     } else if (plr == 1 && !(currplayer) || plr == 2 && currplayer) {
         basic.showIcon(IconNames.Happy)
+        basic.pause(5000)
+        control.reset()
     }
-    basic.pause(5000)
-    control.reset()
 }
 input.onButtonPressed(Button.AB, function () {
     if (!(ready)) {
@@ -209,9 +212,13 @@ if (single) {
     }
 }
 map.push(map[0])
-loops.everyInterval(500, function () {
+loops.everyInterval(0, function() {
     if (ready) {
         redraw()
+    }
+})
+loops.everyInterval(500, function () {
+    if (ready) {
         score += 1
         mapscroll += 1
     }
