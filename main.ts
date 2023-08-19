@@ -85,7 +85,8 @@ function move (x: number, y: number) {
 function redraw () {
     basic.clearScreen()
     if (mapscroll + 3 > (map.length - 1) * 3) {
-        let loop = map.pop() // get looping element
+        // get looping element
+        loop = map.pop()
         mapscroll = -2
         if (single) {
             for (let j = map.length - 1; j > 0; j--) {
@@ -122,14 +123,15 @@ let p1x = 0
 let p1y = 0
 let p2x = 0
 let p2y = 0
+let loop: string[] = []
 let mapscroll = 0
-let map: string[][] = []
-let leng = 0
-let score = 0
-let mapcopy: string[][] = []
 let mape = false
+let score = 0
+let leng = 0
+let map: string[][] = []
 mapscroll = -5
 score = 0
+loop = [""]
 map = [
 [
 "#",
@@ -200,7 +202,7 @@ p2x = 0
 p1y = 3
 p1x = 0
 radio.setFrequencyBand(69)
-radio.sendValue("a", 0)
+radio.sendValue("a", 0) // send useless data to make another micro:bit appear in the emulator
 basic.showIcon(IconNames.Duck)
 while (!(ready)) {
     basic.pause(25)
@@ -212,14 +214,14 @@ if (single) {
     }
 }
 map.push(map[0])
-loops.everyInterval(0, function() {
-    if (ready) {
-        redraw()
-    }
-})
 loops.everyInterval(500, function () {
     if (ready) {
         score += 1
         mapscroll += 1
+    }
+})
+loops.everyInterval(0, function () {
+    if (ready) {
+        redraw()
     }
 })
